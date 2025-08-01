@@ -1,0 +1,587 @@
+[
+  {
+    "brand": "メビウス",
+    "name": "ワン・100'S・ボックス",
+    "tar": 1,
+    "nicotine": 0.1,
+    "menthol": false,
+    "price": 580,
+    "description": "国産葉を中心としたドメスティックブレンド。クセがなく、まろやかでスムーズな味わい。",
+    "属性": [
+      "初心者向け",
+      "国産葉",
+      "滑らか",
+      "ロングサイズ"
+    ],
+    "current": true
+  },
+  {
+    "brand": "メビウス",
+    "name": "スーパーライト",
+    "tar": 6,
+    "nicotine": 0.5,
+    "menthol": false,
+    "price": 580,
+    "description": "上記に同じ。",
+    "属性": [      
+      "初心者向け",
+      "国産葉",
+      "滑らか"
+    ],
+    "current": true
+  },
+  {
+    "brand": "メビウス",
+    "name": "ライト",
+    "tar": 8,
+    "nicotine": 0.7,
+    "menthol": false,
+    "price": 580,
+    "description": "上記に同じ。",
+    "属性": [      
+      "初心者向け",
+      "国産葉",
+      "滑らか"
+    ],
+    "current": true
+  },
+  {
+    "brand": "メビウス",
+    "name": "ワン・ボックス",
+    "tar": 1,
+    "nicotine": 0.1,
+    "menthol": false,
+    "price": 580,
+    "description": "上記に同じ。",
+    "属性": [      
+      "初心者向け",
+      "国産葉",
+      "滑らか"
+    ],
+    "current": true
+  },
+  {
+    "brand": "メビウス",
+    "name": "エクストラライト",
+    "tar": 3,
+    "nicotine": 0.3,
+    "menthol": false,
+    "price": 580,
+    "description": "上記に同じ。",
+    "属性": [      
+      "初心者向け",
+      "国産葉",
+      "滑らか"
+    ],
+    "current": true
+  },
+  {
+    "brand": "メビウス",
+    "name": "ゴールド・6",
+    "tar": 6,
+    "nicotine": 0.5,
+    "menthol": false,
+    "price": 580,
+    "description": "上記に同じ。",
+    "属性": [      
+      "初心者向け",
+      "国産葉",
+      "滑らか"
+    ],
+    "current": true
+  },
+  {
+    "brand": "マイルドセブン",
+    "name": "",
+    "tar": 10,
+    "nicotine": 0.8,
+    "menthol": false,
+    "price": null,
+    "description": "現メビウス。チャコールフィルターによるまろやかな味わいが特徴だった。",
+    "属性": [
+      "チャコールフィルター",
+      "上級者向け"
+    ],
+    "current": false
+  },
+  {
+    "brand": "マイルドセブン",
+    "name": "FK",
+    "tar": 8,
+    "nicotine": 0.7,
+    "menthol": false,
+    "price": null,
+    "description": "マイルドセブン・ライトと同等のスペック。販売終了。",
+    "属性": [],
+    "current": false
+  },
+  {
+    "brand": "セブンスター",
+    "name": "",
+    "tar": 14,
+    "nicotine": 1.2,
+    "menthol": false,
+    "price": 600,
+    "description": "国産葉の甘みを活かしたドメスティックブレンド。濃厚な煙と確かな吸いごたえ。",
+    "属性": [
+      "コク深い",
+      "上級者向け",
+      "国産葉",
+      "強い吸いごたえ"
+    ],
+    "current": true
+  },
+  {
+    "brand": "セブンスター",
+    "name": "・10・ボックス",
+    "tar": 10,
+    "nicotine": 0.9,
+    "menthol": false,
+    "price": 600,
+    "description": "セブンスターの味わいを保ちつつ、タール値を抑えたモデル。",
+    "属性": [
+      "コク深い",
+      "上級者向け",
+      "国産葉",
+      "強い吸いごたえ"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ウィンストン",
+    "name": "キャスター・ホワイト・5",
+    "tar": 5,
+    "nicotine": 0.4,
+    "menthol": false,
+    "price": 540,
+    "description": "旧キャスター。バニラのような甘い香りが特徴のスムースなブレンド。",
+    "属性": [
+      "甘い",
+      "香りが良い"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ウィンストン",
+    "name": "キャスター・ホワイト・ワン・100'S",
+    "tar": 1,
+    "nicotine": 0.1,
+    "menthol": false,
+    "price": 540,
+    "description": "上記のロングサイズ・1mgモデル。",
+    "属性": [
+      "甘い",
+      "香りが良い",
+      "ロングサイズ"
+    ],
+    "current": true
+  },
+  {
+    "brand": "キャスター",
+    "name": "・マイルド",
+    "tar": 5,
+    "nicotine": 0.4,
+    "menthol": false,
+    "price": null,
+    "description": "現ウィンストン・キャスター・ホワイトの前身。販売終了。",
+    "属性": [],
+    "current": false
+  },
+  {
+    "brand": "キャビン",
+    "name": "85・マイルドボックス",
+    "tar": 8,
+    "nicotine": 0.7,
+    "menthol": false,
+    "price": null,
+    "description": "現ウィンストン・キャビンシリーズの前身。コクのある味わいが特徴だった。",
+    "属性": [
+      "コク深い"
+    ],
+    "current": false
+  },
+  {
+    "brand": "ナチュラル・アメリカン・スピリット",
+    "name": "オーガニック・ミント・ワン",
+    "tar": 1,
+    "nicotine": 0.1,
+    "menthol": true,
+    "price": 620,
+    "description": "オーガニック葉100%使用。ミント本来の自然な爽やかさ。",
+    "属性": [
+      "オーガニック",
+      "初心者向け",
+      "清涼感"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ナチュラル・アメリカン・スピリット",
+    "name": "オーガニック・リーフ・ワン",
+    "tar": 1,
+    "nicotine": 0.1,
+    "menthol": false,
+    "price": 620,
+    "description": "オーガニック葉100%使用。タバコ葉本来の味わいを追求。",
+    "属性": [
+      "オーガニック",
+      "初心者向け"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ラッキー・ストライク",
+    "name": "エキスパートカット・6",
+    "tar": 6,
+    "nicotine": 0.5,
+    "menthol": false,
+    "price": 450,
+    "description": "アメリカンブレンド。豊かな香りとしっかりとした吸いごたえ。",
+    "属性": [
+      "アメリカンブレンド",
+      "強い吸いごたえ",
+      "香りが良い"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ラッキー・ストライク",
+    "name": "エキスパートカット・10",
+    "tar": 10,
+    "nicotine": 0.9,
+    "menthol": false,
+    "price": 450,
+    "description": "上記の高タールモデル。",
+    "属性": [
+      "上級者向け"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ケント",
+    "name": "1・100・ボックス",
+    "tar": 1,
+    "nicotine": 0.1,
+    "menthol": false,
+    "price": 520,
+    "description": "バージニアブレンドが主体。雑味が少なくクリアな味わい。",
+    "属性": [
+      "バージニアブレンド",
+      "初心者向け",
+      "滑らか",
+      "ロングサイズ"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ケント",
+    "name": "エス・シリーズ・1・100・ボックス",
+    "tar": 1,
+    "nicotine": 0.1,
+    "menthol": false,
+    "price": 500,
+    "description": "上記のスリムタイプで、より洗練された味わい。",
+    "属性": [
+      "初心者向け",
+      "女性人気",
+      "スリムタイプ"
+    ],
+    "current": true
+  },
+  {
+    "brand": "マールボロ",
+    "name": "KS ボックス",
+    "tar": 12,
+    "nicotine": 0.9,
+    "menthol": false,
+    "price": 600,
+    "description": "代表的なアメリカンブレンド。バランスが取れた豊かな味わいと香り。",
+    "属性": [
+      "アメリカンブレンド",
+      "上級者向け",
+      "香りが良い"
+    ],
+    "current": true
+  },
+  {
+    "brand": "パーラメント",
+    "name": "KS・ボックス",
+    "tar": 9,
+    "nicotine": 0.7,
+    "menthol": false,
+    "price": 580,
+    "description": "アメリカンブレンド。独自の中空フィルターでまろやかな味わいを実現。",
+    "属性": [
+      "アメリカンブレンド"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ラーク",
+    "name": "マイルドKSボックス",
+    "tar": 9,
+    "nicotine": 0.8,
+    "menthol": false,
+    "price": 540,
+    "description": "アメリカンブレンド。活性炭フィルターによる、雑味のないクリアな味わい。",
+    "属性": [
+      "アメリカンブレンド",
+      "活性炭フィルター",
+      "滑らか"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ハイライト",
+    "name": "",
+    "tar": 17,
+    "nicotine": 1.4,
+    "menthol": false,
+    "price": 520,
+    "description": "ラム酒のフレーバーが香る、独特の甘みと強い刺激が特徴のロングセラー。",
+    "属性": [
+      "上級者向け",
+      "強い吸いごたえ",
+      "甘い"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ハイライト",
+    "name": "メンソール",
+    "tar": 10,
+    "nicotine": 0.8,
+    "menthol": true,
+    "price": 520,
+    "description": "ラム酒のフレーバーが香る、独特の甘みと強い刺激が特徴のロングセラー。",
+    "属性": [
+      "上級者向け",
+      "強い吸いごたえ",
+      "甘い"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ホープ",
+    "name": "(10)",
+    "tar": 14,
+    "nicotine": 1.1,
+    "menthol": false,
+    "price": 300,
+    "description": "はちみつフレーバーを使用。短く太い形状で、豊かな煙量と強い吸いごたえ。",
+    "属性": [
+      "上級者向け",
+      "強い吸いごたえ",
+      "甘い"
+    ],
+    "current": true
+  },
+  {
+    "brand": "マールボロ",
+    "name": "レッド・KS・ボックス",
+    "tar": 12,
+    "nicotine": 0.9,
+    "menthol": false,
+    "price": 600,
+    "description": "王道アメリカンブレンド。重厚な吸いごたえ。",
+    "属性": [
+      "アメリカンブレンド",
+      "上級者向け",
+      "強い吸いごたえ"
+    ],
+    "current": true
+  },
+  {
+    "brand": "マールボロ",
+    "name": "ゴールド・ライト",
+    "tar": 6,
+    "nicotine": 0.5,
+    "menthol": false,
+    "price": 600,
+    "description": "軽快な吸い心地と芳醇な香り。",
+    "属性": [
+      "若年層人気",
+      "香りが良い"
+    ],
+    "current": true
+  },
+  {
+    "brand": "マールボロ",
+    "name": "ワン・100's・ボックス",
+    "tar": 1,
+    "nicotine": 0.1,
+    "menthol": false,
+    "price": 600,
+    "description": "最も軽い吸い心地。クリーンな印象。",
+    "属性": [
+      "初心者向け"
+    ],
+    "current": true
+  },
+  {
+    "brand": "マールボロ",
+    "name": "ブラック・メンソール・12",
+    "tar": 12,
+    "nicotine": 1.0,
+    "menthol": true,
+    "price": 600,
+    "description": "強力な冷涼感とキレのある味わい。",
+    "属性": [
+      "上級者向け",
+      "強い吸いごたえ",
+      "清涼感あり"
+    ],
+    "current": true
+  },
+  {
+    "brand": "マールボロ",
+    "name": "ブラック・メンソール・8",
+    "tar": 8,
+    "nicotine": 0.7,
+    "menthol": true,
+    "price": 600,
+    "description": "程よいメンソール感と香ばしさのバランス。",
+    "属性": [
+      "スモーキー",
+      "清涼感あり"
+    ],
+    "current": true
+  },
+  {
+    "brand": "マールボロ",
+    "name": "パープル・メンソール・5",
+    "tar": 5,
+    "nicotine": 0.4,
+    "menthol": true,
+    "price": 600,
+    "description": "ベリー系の香り付きメンソール。若年層に人気。",
+    "属性": [
+      "清涼感あり",
+      "甘い",
+      "若年層人気",
+      "香りが良い"
+    ],
+    "current": true
+  },
+  {
+    "brand": "マールボロ",
+    "name": "クリア・メンソール・5",
+    "tar": 5,
+    "nicotine": 0.4,
+    "menthol": true,
+    "price": 600,
+    "description": "雑味の少ないクリアな清涼感。",
+    "属性": [
+      "清涼感あり",
+      "滑らか"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ラーク",
+    "name": "クラシック・マイルド",
+    "tar": 9,
+    "nicotine": 0.8,
+    "menthol": false,
+    "price": 540,
+    "description": "炭フィルターによる濃厚な味わい。",
+    "属性": [
+      "コク深い"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ラーク",
+    "name": "スーパー・マイルド・6",
+    "tar": 6,
+    "nicotine": 0.5,
+    "menthol": false,
+    "price": 540,
+    "description": "滑らかでクセのない吸い心地。",
+    "属性": [
+      "滑らか"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ラーク",
+    "name": "ブラック・メンソール・8",
+    "tar": 8,
+    "nicotine": 0.7,
+    "menthol": true,
+    "price": 540,
+    "description": "クールで濃厚なメントールタイプ。",
+    "属性": [
+      "コク深い",
+      "清涼感あり"
+    ],
+    "current": true
+  },
+  {
+    "brand": "ラーク",
+    "name": "ブラック・メンソール・1",
+    "tar": 1,
+    "nicotine": 0.1,
+    "menthol": true,
+    "price": 540,
+    "description": "ライトな清涼感を求める方へ。",
+    "属性": [
+      "初心者向け",
+      "清涼感あり"
+    ],
+    "current": true
+  },
+  {
+    "brand": "パーラメント",
+    "name": "ライト",
+    "tar": 6,
+    "nicotine": 0.5,
+    "menthol": false,
+    "price": 580,
+    "description": "上質な味とまろやかな煙。",
+    "属性": [],
+    "current": true
+  },
+  {
+    "brand": "パーラメント",
+    "name": "スーパーライト",
+    "tar": 3,
+    "nicotine": 0.3,
+    "menthol": false,
+    "price": 580,
+    "description": "軽い口当たりと気品ある香り。",
+    "属性": [
+      "初心者向け",
+      "女性人気",
+      "香りが良い"
+    ],
+    "current": false
+  },
+  {
+    "brand": "バージニア・エス",
+    "name": "バージニア・エス・ブラック・8",
+    "tar": 8,
+    "nicotine": 0.6,
+    "menthol": false,
+    "price": 500,
+    "description": "アメリカンブレンドを軸にした芳ばしい味わい。",
+    "属性": [
+      "アメリカンブレンド"
+    ],
+    "current": false
+  },
+  {
+    "brand": "バージニア・エス",
+    "name": "バージニア・エス・クリア・メンソール",
+    "tar": 6,
+    "nicotine": 0.5,
+    "menthol": true,
+    "price": 500,
+    "description": "爽やかで刺激控えめなメンソール。",
+    "属性": [
+      "強い吸いごたえ",
+      "清涼感あり"
+    ],
+    "current": false
+  }
+]
