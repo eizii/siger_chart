@@ -2,8 +2,8 @@ import React from "react";
 
 export default function BarChart({ recommended }) {
   const width = 800;
-  const barHeight = 25;
-  const barSpacing = 8;
+  const barHeight = 30;
+  const barSpacing = 20;
   const labelWidth = 400; 
 
   const totalHeight = (barHeight + barSpacing) * recommended.length;

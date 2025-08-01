@@ -1,119 +1,85 @@
 import React from "react";
+import KeywordSelector from "./KeywordSelector";
 
-// ドロップダウンに表示するキーワード
-const keywordOptions = [
-  "スモーキー",
-  "まろやか",
-  "甘い",
-  "軽め",
-  "ガツン",
-  "強め",
-  "香ばしい",
-  "クール",
-  "華やか",
-  "渋い"
+const allKeywords = [
+  "まろやか", "甘い", "軽め", "ガツン", "強め", "香り重視", "ドライ", "後味さっぱり"
 ];
 
 export default function InputForm({ filters, onChange }) {
-  function handleChange(e) {
-    const { name, value, type, checked } = e.target;
-    onChange({
-      ...filters,
-      [name]: type === "checkbox" ? checked : parseFloat(value)
-    });
-  }
+  const handleChange = (field, value) => {
+    // 範囲の整合性を保つ
+    if (field === "tarMin" && value > filters.tarMax) value = filters.tarMax;
+    if (field === "tarMax" && value < filters.tarMin) value = filters.tarMin;
+    if (field === "nicMin" && value > filters.nicMax) value = filters.nicMax;
+    if (field === "nicMax" && value < filters.nicMin) value = filters.nicMin;
 
-  function handleKeywordChange(e) {
-    const selected = Array.from(e.target.selectedOptions).map(o => o.value);
-    onChange({ ...filters, keywords: selected });
-  }
+    onChange({ ...filters, [field]: value });
+  };
 
   return (
     <div style={{ marginBottom: "20px" }}>
       <div style={{ marginBottom: "10px" }}>
-        <label>
-          タール: {filters.tarMin} - {filters.tarMax}
-          <br />
-          最小
+        <label>タール (mg): {filters.tarMin}〜{filters.tarMax}</label>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
           <input
             type="range"
-            name="tarMin"
             min="0"
             max="20"
-            step="1"
+            step="0.1"
             value={filters.tarMin}
-            onChange={handleChange}
+            onChange={(e) => handleChange("tarMin", parseFloat(e.target.value))}
           />
-          最大
           <input
             type="range"
-            name="tarMax"
             min="0"
             max="20"
-            step="1"
+            step="0.1"
             value={filters.tarMax}
-            onChange={handleChange}
+            onChange={(e) => handleChange("tarMax", parseFloat(e.target.value))}
           />
-        </label>
+        </div>
       </div>
 
       <div style={{ marginBottom: "10px" }}>
-        <label>
-          ニコチン: {filters.nicMin} - {filters.nicMax}
-          <br />
-          最小
+        <label>ニコチン (mg): {filters.nicMin}〜{filters.nicMax}</label>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
           <input
             type="range"
-            name="nicMin"
             min="0"
-            max="2"
-            step="0.1"
+            max="1.5"
+            step="0.01"
             value={filters.nicMin}
-            onChange={handleChange}
+            onChange={(e) => handleChange("nicMin", parseFloat(e.target.value))}
           />
-          最大
           <input
             type="range"
-            name="nicMax"
             min="0"
-            max="2"
-            step="0.1"
+            max="1.5"
+            step="0.01"
             value={filters.nicMax}
-            onChange={handleChange}
+            onChange={(e) => handleChange("nicMax", parseFloat(e.target.value))}
           />
-        </label>
+        </div>
       </div>
 
       <div style={{ marginBottom: "10px" }}>
         <label>
           <input
             type="checkbox"
-            name="mentholOnly"
             checked={filters.mentholOnly}
-            onChange={handleChange}
+            onChange={(e) => handleChange("mentholOnly", e.target.checked)}
           />
           メンソールのみ
         </label>
       </div>
 
       <div>
-        <label>
-          属性キーワード（複数選択）:
-          <br />
-          <select
-            multiple
-            size="5"
-            value={filters.keywords}
-            onChange={handleKeywordChange}
-            style={{ width: "200px", height: "100px" }}
-          >
-            {keywordOptions.map((kw) => (
-              <option key={kw} value={kw}>
-                {kw}
-              </option>
-            ))}
-          </select>
-        </label>
+        <label>属性キーワード（複数選択）:</label>
+        <KeywordSelector
+          keywords={allKeywords}
+          selected={filters.keywords}
+          onChange={(newKeywords) => handleChange("keywords", newKeywords)}
+        />
       </div>
     </div>
   );
