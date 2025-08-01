@@ -18,7 +18,7 @@ export default function App() {
 
   return (
     <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
-      <h1>ニコレコ</h1>
+      <h1>ヤニレコ</h1>
       <InputForm filters={filters} onChange={setFilters} />
       <h2>おすすめ銘柄（スコア順）</h2>
       {recommended.length === 0 ? (
