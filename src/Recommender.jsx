@@ -27,8 +27,8 @@ function computeScore(cig, filters) {
   const tarCenter = filters.tarMin + tarRange / 2;
   const nicCenter = filters.nicMin + nicRange / 2;
 
-  const tarDiff = Math.abs(cig.tar - tarCenter);
-  const nicDiff = Math.abs(cig.nicotine - nicCenter);
+  const tarDiff = Math.abs(cig.tar - filters.tarMax);
+  const nicDiff = Math.abs(cig.nicotine - filters.nicMax);
 
   score *= 1 - (tarDiff / tarRange);
   score *= 1 - (nicDiff / nicRange);

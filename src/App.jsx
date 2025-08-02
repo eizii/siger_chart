@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import InputForm from "./InputForm";
-import BarChart from "./BarChart";
+import BarChartD3 from "./BarChart";
 import { recommendWithScore } from "./Recommender";
-import cigaretteMeta from "./cigarette_meta.json";
 
 export default function App() {
   const [filters, setFilters] = useState({
@@ -24,7 +23,7 @@ export default function App() {
       {recommended.length === 0 ? (
         <p>該当する銘柄が見つかりませんでした。</p>
       ) : (
-        <BarChart recommended={recommended} />
+        <BarChartD3 recommended={recommended} />
       )}
     </div>
   );

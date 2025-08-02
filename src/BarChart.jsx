@@ -1,56 +1,52 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import * as d3 from "d3";
 
-export default function BarChart({ recommended }) {
-  const width = 800;
-  const barHeight = 30;
-  const barSpacing = 20;
-  const labelWidth = 400; 
+export default function BarChartD3({ recommended }) {
+  const svgRef = useRef();
 
-  const totalHeight = (barHeight + barSpacing) * recommended.length;
+  useEffect(() => {
+    const width = 900;
+    const barHeight = 24;
+    const margin = { top: 20, right: 80, bottom: 20, left: 400 };
+    const height = recommended.length * barHeight + margin.top + margin.bottom;
 
-  return (
-    <svg
-      key={recommended.map(d => d.name).join("-")}
-      width={width}
-      height={totalHeight}
-    >
-      {recommended.map((d, i) => {
-        const barWidth = d.score * (width - labelWidth - 100);
-        return (
-          <g
-            key={d.brand + d.name}
-            transform={`translate(0, ${i * (barHeight + barSpacing)})`}
-          >
-            <text
-              x={labelWidth - 10}
-              y={barHeight / 2}
-              dy="0.35em"
-              fontSize={11} 
-              textAnchor="end"
-            >
-              {d.brand} {d.name}
-            </text>
+    const svg = d3.select(svgRef.current);
+    svg.selectAll("*").remove(); 
+    svg.attr("width", width).attr("height", height);
 
-            <rect
-              x={labelWidth}
-              y={0}
-              width={barWidth}
-              height={barHeight}
-              fill="orange"
-              rx={4}
-            />
+    const xScale = d3.scaleLinear()
+      .domain([0, d3.max(recommended, d => d.score) || 1])
+      .range([0, width - margin.left - margin.right]);
 
-            <text
-              x={labelWidth + barWidth + 5}
-              y={barHeight / 2}
-              dy="0.35em"
-              fontSize={11}
-            >
-              {d.score.toFixed(2)}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
-  );
+    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+    g.selectAll("rect")
+      .data(recommended)
+      .join("rect")
+      .attr("y", (_, i) => i * barHeight)
+      .attr("width", d => xScale(d.score))
+      .attr("height", barHeight - 4)
+      .attr("fill", "orange");
+
+    g.selectAll("text.label")
+      .data(recommended)
+      .join("text")
+      .attr("x", -10)
+      .attr("y", (_, i) => i * barHeight + (barHeight - 4) / 2)
+      .attr("text-anchor", "end")
+      .attr("alignment-baseline", "middle")
+      .attr("font-size", 11)
+      .text(d => `${d.brand} ${d.name}`);
+
+    g.selectAll("text.score")
+      .data(recommended)
+      .join("text")
+      .attr("x", d => xScale(d.score) + 5)
+      .attr("y", (_, i) => i * barHeight + (barHeight - 4) / 2)
+      .attr("alignment-baseline", "middle")
+      .attr("font-size", 11)
+      .text(d => d.score.toFixed(2));
+  }, [recommended]);
+
+  return <svg ref={svgRef} />;
 }

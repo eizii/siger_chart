@@ -1,17 +1,7 @@
 import React, { useState } from "react";
 
-const KEYWORDS = [
-  "まろやか",
-  "甘い",
-  "軽め",
-  "ガツン",
-  "強め",
-  "香ばしい",
-  "爽やか",
-  "クリーミー",
-  "ドライ",
-  "コク深い"
-];
+const KEYWORDS = ["初心者向け","上級者向け","ロングサイズ","滑らか","強い吸いごたえ","コク深い","甘い","香りが良い","オーガニック","清涼感","アメリカンブレンド","バージニアブレンド","カプセル入り",];
+
 
 export default function KeywordSelector({ selected, onChange }) {
   const [open, setOpen] = useState(false);

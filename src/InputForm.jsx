@@ -2,12 +2,11 @@ import React from "react";
 import KeywordSelector from "./KeywordSelector";
 
 const allKeywords = [
-  "まろやか", "甘い", "軽め", "ガツン", "強め", "香り重視", "ドライ", "後味さっぱり"
+  "初心者向け","上級者向け","ロングサイズ","滑らか","強い吸いごたえ","コク深い","甘い","香りが良い","オーガニック","清涼感","アメリカンブレンド","バージニアブレンド","カプセル入り",
 ];
 
 export default function InputForm({ filters, onChange }) {
   const handleChange = (field, value) => {
-    // 範囲の整合性を保つ
     if (field === "tarMin" && value > filters.tarMax) value = filters.tarMax;
     if (field === "tarMax" && value < filters.tarMin) value = filters.tarMin;
     if (field === "nicMin" && value > filters.nicMax) value = filters.nicMax;
@@ -74,7 +73,7 @@ export default function InputForm({ filters, onChange }) {
       </div>
 
       <div>
-        <label>属性キーワード（複数選択）:</label>
+        <label>属性キーワード:</label>
         <KeywordSelector
           keywords={allKeywords}
           selected={filters.keywords}
