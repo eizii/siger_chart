@@ -21,8 +21,8 @@ export function recommendWithScore(filters) {
 function computeScore(cig, filters) {
   let score = 1.0;
 
-  const tarRange = filters.tarMax - filters.tarMin || 1;
-  const nicRange = filters.nicMax - filters.nicMin || 1;
+  const tarRange = filters.tarMax - filters.tarMin;
+  const nicRange = filters.nicMax - filters.nicMin;
 
   const tarCenter = filters.tarMin + tarRange / 2;
   const nicCenter = filters.nicMin + nicRange / 2;

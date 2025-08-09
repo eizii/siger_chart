@@ -1,83 +1,65 @@
 import React from "react";
 import KeywordSelector from "./KeywordSelector";
+import Slider from "@mui/material/Slider";
 
 const allKeywords = [
   "初心者向け","上級者向け","ロングサイズ","滑らか","強い吸いごたえ","コク深い","甘い","香りが良い","オーガニック","清涼感","アメリカンブレンド","バージニアブレンド","カプセル入り",
 ];
 
-export default function InputForm({ filters, onChange }) {
-  const handleChange = (field, value) => {
-    if (field === "tarMin" && value > filters.tarMax) value = filters.tarMax;
-    if (field === "tarMax" && value < filters.tarMin) value = filters.tarMin;
-    if (field === "nicMin" && value > filters.nicMax) value = filters.nicMax;
-    if (field === "nicMax" && value < filters.nicMin) value = filters.nicMin;
-
-    onChange({ ...filters, [field]: value });
+export default function InputForm({filters,onChange}){
+  const handleTarChange = (event,newValue) =>{
+    onChange({...filters,tarMin:newValue[0],tarMax:newValue[1]});
   };
 
-  return (
-    <div style={{ marginBottom: "20px" }}>
-      <div style={{ marginBottom: "10px" }}>
-        <label>タール (mg): {filters.tarMin}〜{filters.tarMax}</label>
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-          <input
-            type="range"
-            min="0"
-            max="20"
-            step="0.1"
-            value={filters.tarMin}
-            onChange={(e) => handleChange("tarMin", parseFloat(e.target.value))}
-          />
-          <input
-            type="range"
-            min="0"
-            max="20"
-            step="0.1"
-            value={filters.tarMax}
-            onChange={(e) => handleChange("tarMax", parseFloat(e.target.value))}
-          />
-        </div>
-      </div>
+  const handleNicChange =(event,newValue) =>{
+    onChange({...filters,nicMin:newValue[0],nicMax:newValue[1]});
+  };
 
-      <div style={{ marginBottom: "10px" }}>
-        <label>ニコチン (mg): {filters.nicMin}〜{filters.nicMax}</label>
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-          <input
-            type="range"
-            min="0"
-            max="1.5"
-            step="0.01"
-            value={filters.nicMin}
-            onChange={(e) => handleChange("nicMin", parseFloat(e.target.value))}
+  const handleFieldChange = (field,value) =>{
+    onChange({...filters,[field]:value});
+  };
+  return(
+    <div style={{marginBottom:"10px"}}>
+      <div style={{marginBottom:"10px",width:"200px"}}>
+        <label>タール(mg):{filters.tarMin}~{filters.tarMax}</label>
+        <Slider 
+          value={[filters.tarMin,filters.tarMax]}
+          onChange={handleTarChange}
+          valueLabelDisplay="auto"
+          min={0}
+          max={20}
+          step={0.1}
+          getAriaLabel={()=>"Tar range"}
           />
-          <input
-            type="range"
-            min="0"
-            max="1.5"
-            step="0.01"
-            value={filters.nicMax}
-            onChange={(e) => handleChange("nicMax", parseFloat(e.target.value))}
-          />
-        </div>
       </div>
-
-      <div style={{ marginBottom: "10px" }}>
+      <div style={{margniBottom:"20px",width:"200px"}}>
+        <label>ニコチン(mg):{filters.nicMin}~{filters.nicMax}</label>
+        <Slider 
+          value={[filters.nicMin,filters.nicMax]}
+          onChange={handleNicChange}
+          valueLabelDisplay="auto"
+          min={0}
+          max={1.5}
+          step={0.01}
+          getAriaLabel={()=>"Nicotine range"}
+        />
+      </div>
+      <div style={{marginBottom:"20px"}}>
         <label>
           <input
             type="checkbox"
             checked={filters.mentholOnly}
-            onChange={(e) => handleChange("mentholOnly", e.target.checked)}
+            onChange={(e)=>handleFieldChange("mentholOnly",e.target.checked)}
           />
           メンソールのみ
         </label>
       </div>
-
       <div>
-        <label>属性キーワード:</label>
+        <label>属性キーワード(複数選択):</label>
         <KeywordSelector
           keywords={allKeywords}
           selected={filters.keywords}
-          onChange={(newKeywords) => handleChange("keywords", newKeywords)}
+          onChange={(newKeywords)=>handleFieldChange("keywords",newKeywords)}
         />
       </div>
     </div>
