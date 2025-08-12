@@ -1,65 +1,78 @@
-import React from "react";
+import React, { useMemo } from "react";
 import KeywordSelector from "./KeywordSelector";
 import Slider from "@mui/material/Slider";
+import meta from "./cigarette_meta.json";
 
-const allKeywords = [
-  "初心者向け","上級者向け","ロングサイズ","滑らか","強い吸いごたえ","コク深い","甘い","香りが良い","オーガニック","清涼感","アメリカンブレンド","バージニアブレンド","カプセル入り",
-];
+export default function InputForm({ filters, onChange }) {
+  const val = (n, fb) => (Number.isFinite(Number(n)) ? Number(n) : fb);
+  const set = (patch) => onChange({ ...filters, ...patch });
+  const allKeywords = useMemo(() => {
+    const count = new Map();
+    for (const d of meta) {
+      const tags = d.attributes || d.属性 || [];
+      for (const t of tags) count.set(t, (count.get(t) || 0) + 1);
+    }
+    return [...count.entries()].sort((a, b) => b[1] - a[1]).map(([t]) => t);
+  }, []);
 
-export default function InputForm({filters,onChange}){
-  const handleTarChange = (event,newValue) =>{
-    onChange({...filters,tarMin:newValue[0],tarMax:newValue[1]});
-  };
-
-  const handleNicChange =(event,newValue) =>{
-    onChange({...filters,nicMin:newValue[0],nicMax:newValue[1]});
-  };
-
-  const handleFieldChange = (field,value) =>{
-    onChange({...filters,[field]:value});
-  };
-  return(
-    <div style={{marginBottom:"10px"}}>
-      <div style={{marginBottom:"10px",width:"200px"}}>
-        <label>タール(mg):{filters.tarMin}~{filters.tarMax}</label>
-        <Slider 
-          value={[filters.tarMin,filters.tarMax]}
-          onChange={handleTarChange}
+  return (
+    <div style={{ marginBottom: 10 }}>
+      <div style={{ marginBottom: 10, width: 240 }}>
+        <label>
+          タール(mg): {val(filters.tarMin, 0)} ~ {val(filters.tarMax, 20)}
+        </label>
+        <Slider
+          value={val(filters.tarMax, 20)}
+          onChange={(_, v) => set({ tarMax: Number(v), tarMin: 0 })}
           valueLabelDisplay="auto"
           min={0}
           max={20}
           step={0.1}
-          getAriaLabel={()=>"Tar range"}
-          />
+        />
       </div>
-      <div style={{margniBottom:"20px",width:"200px"}}>
-        <label>ニコチン(mg):{filters.nicMin}~{filters.nicMax}</label>
-        <Slider 
-          value={[filters.nicMin,filters.nicMax]}
-          onChange={handleNicChange}
+
+      <div style={{ marginBottom: 20, width: 240 }}>
+        <label>
+          ニコチン(mg): {val(filters.nicMin, 0)} ~ {val(filters.nicMax, 1.5)}
+        </label>
+        <Slider
+          value={val(filters.nicMax, 1.5)}
+          onChange={(_, v) => set({ nicMax: Number(v), nicMin: 0 })}
           valueLabelDisplay="auto"
           min={0}
           max={1.5}
           step={0.01}
-          getAriaLabel={()=>"Nicotine range"}
         />
       </div>
-      <div style={{marginBottom:"20px"}}>
+
+      <div style={{ marginBottom: 20 }}>
         <label>
           <input
             type="checkbox"
-            checked={filters.mentholOnly}
-            onChange={(e)=>handleFieldChange("mentholOnly",e.target.checked)}
+            checked={!!filters.menthol}
+            onChange={(e) => set({ menthol: e.target.checked })}
           />
-          メンソールのみ
+          メンソール
         </label>
       </div>
+
+      <div style={{ marginBottom: 20 }}>
+        <label>
+          <input
+            type="checkbox"
+            checked={!!filters.regular}
+            onChange={(e) => set({ regular: e.target.checked })}
+          />
+          レギュラー
+        </label>
+      </div>
+
       <div>
         <label>属性キーワード(複数選択):</label>
         <KeywordSelector
           keywords={allKeywords}
-          selected={filters.keywords}
-          onChange={(newKeywords)=>handleFieldChange("keywords",newKeywords)}
+          selected={filters.keywords || []}
+          onChange={(ks) => set({ keywords: ks })}
         />
       </div>
     </div>

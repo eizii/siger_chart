@@ -1,0 +1,63 @@
+:root {
+  --bg: #f6f7fb;
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --border: rgba(0, 0, 0, 0.08);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --radius: 16px;
+}
+
+body {
+  background: var(--bg);
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 20px 40px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px 20px;
+}
+
+.controls {
+  position: sticky;
+  top: 16px;
+}
+
+.chartCard {
+  padding: 20px 24px;
+}
+
+.title {
+  margin: 0 0 8px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.badge {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #155e75;
+  background: #e0f2fe;
+  border: 1px solid #bae6fd;
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+/* スライダー周りの余白を少し広げたい時は MUI のクラスに追加で */

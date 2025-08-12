@@ -1,31 +1,32 @@
 import React, { useState } from "react";
 
-const KEYWORDS = ["初心者向け","上級者向け","ロングサイズ","滑らか","強い吸いごたえ","コク深い","甘い","香りが良い","オーガニック","清涼感","アメリカンブレンド","バージニアブレンド","カプセル入り",];
-
-
-export default function KeywordSelector({ selected, onChange }) {
+export default function KeywordSelector({
+  keywords = [],
+  selected = [],
+  onChange,
+}) {
   const [open, setOpen] = useState(false);
 
-  const toggleKeyword = (kw) => {
-    const newList = selected.includes(kw)
+  const toggle = (kw) => {
+    const next = selected.includes(kw)
       ? selected.filter((k) => k !== kw)
       : [...selected, kw];
-    onChange(newList);
+    onChange(next);
   };
 
   return (
-    <div style={{ position: "relative", width: "250px", marginTop: "8px" }}>
+    <div style={{ position: "relative", width: 250, marginTop: 8 }}>
       <div
         onClick={() => setOpen(!open)}
         style={{
           border: "1px solid gray",
           padding: "6px 10px",
           cursor: "pointer",
-          backgroundColor: "#fff",
-          borderRadius: "4px"
+          background: "#fff",
+          borderRadius: 4,
         }}
       >
-        {selected.length > 0 ? selected.join("、") : "キーワードを選択"}
+        {selected.length ? selected.join("、") : "キーワードを選択"}
       </div>
 
       {open && (
@@ -36,21 +37,21 @@ export default function KeywordSelector({ selected, onChange }) {
             left: 0,
             right: 0,
             border: "1px solid gray",
-            background: "white",
-            maxHeight: "150px",
+            background: "#fff",
+            maxHeight: 150,
             overflowY: "auto",
             zIndex: 100,
-            borderRadius: "4px",
-            marginTop: "2px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+            borderRadius: 4,
+            marginTop: 2,
+            boxShadow: "0 2px 8px rgba(0,0,0,.1)",
           }}
         >
-          {KEYWORDS.map((kw) => (
+          {keywords.map((kw) => (
             <label key={kw} style={{ display: "block", padding: "6px 10px" }}>
               <input
                 type="checkbox"
                 checked={selected.includes(kw)}
-                onChange={() => toggleKeyword(kw)}
+                onChange={() => toggle(kw)}
               />{" "}
               {kw}
             </label>
