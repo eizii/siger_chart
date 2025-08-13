@@ -1820,19 +1820,6 @@
     "attributes": []
   },
   {
-    "product_url": "https://www.tabako-sakuranbo.co.jp/goods/goods-603.php",
-    "name": "トレジャラー・ブラック",
-    "image_url": "https://www.tabako-sakuranbo.co.jp/img/tabakogoods/l-603.jpg",
-    "tar": 10.0,
-    "nicotine": 0.8,
-    "quantity": "20本",
-    "price": "4000円",
-    "description": "",
-    "brand": "トレジャラー",
-    "menthol": false,
-    "attributes": []
-  },
-  {
     "product_url": "https://www.tabako-sakuranbo.co.jp/goods/goods-604.php",
     "name": "トレジャラー・ラグジュアリー",
     "image_url": "https://www.tabako-sakuranbo.co.jp/img/tabakogoods/l-604.jpg",

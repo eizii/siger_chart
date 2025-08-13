@@ -1,88 +1,149 @@
-import React, { useEffect, useRef } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import * as d3 from "d3";
 
-export default function BarChartD3({ recommended }) {
+const LABEL_FONT_PX = 12;
+const LABEL_MAX_LINES = 2;
+const LABEL_LINE_EM = 1.15;
+const ROT_DEG = 35; // ラベルを右下へ -35°
+const ROT_RAD = (ROT_DEG * Math.PI) / 180;
+const LABEL_Y_OFFSET = 22; // ★ 追加: ラベルを下げる量(px)
+
+export default function BarChartD3({
+  recommended = [],
+  slots = 10,
+  barW = 44,
+  barGap = 20,
+}) {
+  const wrapRef = useRef(null);
   const svgRef = useRef(null);
+  const [wrapW, setWrapW] = useState(0);
+
+  // defs衝突防止の一意ID
+  const idsRef = useRef(null);
+  if (!idsRef.current) {
+    const base = "bc" + Math.random().toString(36).slice(2, 8);
+    idsRef.current = { gr: `${base}-gr`, gm: `${base}-gm`, sh: `${base}-sh` };
+  }
+  const { gr, gm, sh } = idsRef.current;
+
+  // 親幅はリサイズ時のみ更新
+  useLayoutEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver((es) =>
+      setWrapW(Math.round(es[0].contentRect.width))
+    );
+    ro.observe(el);
+    setWrapW(Math.round(el.getBoundingClientRect().width));
+    return () => ro.disconnect();
+  }, []);
+
+  // 上位N件 + slot付与
+  const data = useMemo(
+    () =>
+      (recommended || [])
+        .slice(0, Math.max(1, Math.min(slots || 10, 50)))
+        .map((d, i) => ({ ...d, slot: i })),
+    [recommended, slots]
+  );
 
   useEffect(() => {
-    const titleOf = (d) => d.name;
+    if (!wrapW) return;
 
-    const SLOTS = 10;
-    const BAR_W = 44;
-    const GAP = 20;
-    const BAND = BAR_W + GAP;
-    const NEED_W = SLOTS * BAR_W + (SLOTS - 1) * GAP;
+    // ---- レイアウト ----
+    const SLOTS = Math.max(1, Math.min(slots || 10, 50));
 
-    const container = svgRef.current?.parentElement;
-    const cw = container ? container.clientWidth : 640;
+    // 斜めラベル用に底マージンを多めに（★ LABEL_Y_OFFSET を反映）
+    const extraLabelH =
+      20 +
+      (LABEL_MAX_LINES - 1) * LABEL_FONT_PX * LABEL_LINE_EM +
+      Math.round(barW * Math.sin(ROT_RAD));
+    const m = {
+      top: 20,
+      right: 24,
+      bottom: 120 + extraLabelH + LABEL_Y_OFFSET,
+      left: 56,
+    };
 
-    const m = { top: 20, right: 24, bottom: 110, left: 56 };
-    const innerW = Math.max(NEED_W, cw - m.left - m.right);
+    const innerW = Math.max(360, wrapW - m.left - m.right);
     const innerH = 340;
     const width = innerW + m.left + m.right;
     const height = innerH + m.top + m.bottom;
 
+    // 親幅フィット（オーバー時は自動縮小）
+    const reqW = SLOTS * barW + (SLOTS - 1) * barGap;
+    const scale = reqW > innerW ? innerW / reqW : 1;
+    const BW = Math.max(12, Math.floor(barW * scale));
+    const GP = Math.max(4, Math.floor(barGap * scale));
+    const BAND = BW + GP;
+
     const xLeft = (i) => i * BAND;
-    const xCenter = (i) => xLeft(i) + BAR_W / 2;
+    const xCenter = (i) => xLeft(i) + BW / 2;
 
-    const svg = d3.select(svgRef.current);
-    svg.selectAll("*").remove();
-    svg.attr("width", width).attr("height", height);
+    // SVG
+    const svg = d3
+      .select(svgRef.current)
+      .attr("width", width)
+      .attr("height", height);
 
-    const defs = svg.append("defs");
-    const grad = (id, from, to) =>
+    // defs（初回のみ）
+    let defs = svg.select("defs");
+    if (defs.empty()) defs = svg.append("defs");
+    if (defs.select(`#${gr}`).empty()) {
+      const grad = (id, from, to) => {
+        const g = defs
+          .append("linearGradient")
+          .attr("id", id)
+          .attr("x1", "0")
+          .attr("x2", "0")
+          .attr("y1", "1")
+          .attr("y2", "0");
+        g.append("stop").attr("offset", "0%").attr("stop-color", from);
+        g.append("stop").attr("offset", "100%").attr("stop-color", to);
+      };
+      grad(gr, "#ffb347", "#ff9a00"); // regular
+      grad(gm, "#39b385", "#2d9f74"); // menthol
       defs
-        .append("linearGradient")
-        .attr("id", id)
-        .attr("x1", "0")
-        .attr("x2", "0")
-        .attr("y1", "1")
-        .attr("y2", "0")
-        .call((g) =>
-          g.append("stop").attr("offset", "0%").attr("stop-color", from)
-        )
-        .call((g) =>
-          g.append("stop").attr("offset", "100%").attr("stop-color", to)
-        );
-    grad("grad-regular", "#ffb347", "#ff9a00");
-    grad("grad-menthol", "#39b385", "#2d9f74");
-    defs
-      .append("filter")
-      .attr("id", "shadow")
-      .append("feDropShadow")
-      .attr("dx", 0)
-      .attr("dy", 2)
-      .attr("stdDeviation", 2)
-      .attr("flood-opacity", 0.25);
+        .append("filter")
+        .attr("id", sh)
+        .append("feDropShadow")
+        .attr("dx", 0)
+        .attr("dy", 2)
+        .attr("stdDeviation", 2)
+        .attr("flood-opacity", 0.25);
+    }
 
-    const g = svg
-      .append("g")
-      .attr("transform", `translate(${m.left},${m.top})`);
+    // ルートg
+    let g = svg.select("g.root");
+    if (g.empty()) g = svg.append("g").attr("class", "root");
+    g.attr("transform", `translate(${m.left},${m.top})`);
 
-    const data = (recommended || [])
-      .slice(0, SLOTS)
-      .map((d, i) => ({ ...d, slot: i }));
-
+    // Yスケール & グリッド
     const y = d3
       .scaleLinear()
       .domain([0, d3.max(data, (d) => d.score) || 1])
       .nice()
       .range([innerH, 0]);
 
-    g.append("g")
-      .attr("class", "y-grid")
-      .call(
-        d3
-          .axisLeft(y)
-          .ticks(5)
-          .tickSize(-NEED_W)
-          .tickFormat(() => "")
-      )
-      .selectAll("line")
-      .attr("stroke", "#000")
-      .attr("opacity", 0.08);
-    g.select(".y-grid .domain").remove();
+    let gy = g.select("g.y-grid");
+    if (gy.empty()) gy = g.append("g").attr("class", "y-grid");
+    gy.call(
+      d3
+        .axisLeft(y)
+        .ticks(5)
+        .tickSize(-innerW)
+        .tickFormat(() => "")
+    );
+    gy.select(".domain").remove();
+    gy.selectAll("line").attr("stroke", "#000").attr("opacity", 0.08);
 
+    // ---- ツールチップ（常にカーソルの下側）----
     let tip = d3.select("body").select(".yc-tooltip");
     if (tip.empty()) {
       tip = d3
@@ -131,122 +192,198 @@ export default function BarChartD3({ recommended }) {
         .style("color", "#9cf")
         .style("textDecoration", "underline")
         .style("margin-top", "8px")
-        .text("商品ページを開く");
+        .text("クリックして商品ページを開く");
     }
 
     const placeTip = (e) => {
-      const pad = 14;
-      const margin = 8;
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-
+      const pad = 14,
+        margin = 8;
+      const vw = window.innerWidth,
+        vh = window.innerHeight;
       const node = tip.node();
       const w = node.offsetWidth || 0;
       const h = node.offsetHeight || 0;
-
-      let x = e.clientX + pad;
-      let y = e.clientY + pad;
-
-      if (x + w > vw - margin) {
-        x = Math.max(margin, e.clientX - w - pad);
-      }
-
-      const maxY = vh - h - margin;
-      y = Math.min(y, maxY);
-
-      const minBelow = e.clientY + 6;
-      if (y < minBelow) y = minBelow;
-
+      let x = e.clientX + pad; // 右
+      let y = e.clientY + pad; // 下
+      if (x + w > vw - margin) x = Math.max(margin, e.clientX - w - pad);
+      y = Math.min(y, vh - h - margin);
+      if (y < e.clientY + 6) y = e.clientY + 6;
       tip.style("left", `${x}px`).style("top", `${y}px`);
     };
 
     const showTip = (event, d) => {
       tip.style("opacity", 1);
-      tip.select(".tip-title").text(d.name);
-
+      tip.select(".tip-title").text(d.name || "");
       const img = tip.select(".tip-img");
       if (d.image_url)
         img
           .attr("src", d.image_url)
-          .attr("alt", d.name)
+          .attr("alt", d.name || "")
           .style("display", "block");
       else img.attr("src", "").style("display", "none");
-
       tip.select(".tip-desc").text(d.description || "説明データなし");
-
       const parts = [];
+      if (d.price) parts.push(`価格: ${String(d.price)}`);
       if (Number.isFinite(d.tar)) parts.push(`タール: ${d.tar}mg`);
       if (Number.isFinite(d.nicotine)) parts.push(`ニコチン: ${d.nicotine}mg`);
       tip.select(".tip-sub").text(parts.join(" / "));
-
       const link = tip.select(".tip-link");
       if (d.product_url)
         link.attr("href", d.product_url).style("display", "inline");
       else link.style("display", "none");
-
       placeTip(event);
     };
 
-    const moveTip = (event) => placeTip(event);
+    let ticking = false;
+    const moveTip = (e) => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        placeTip(e);
+        ticking = false;
+      });
+    };
     const hideTip = () => tip.style("opacity", 0);
 
+    // ---- 棒 ----
     g.selectAll("rect.bar")
       .data(data, (d) => d.slot)
-      .join("rect")
-      .attr("class", "bar")
+      .join(
+        (enter) => enter.append("rect").attr("class", "bar").attr("rx", 8),
+        (update) => update,
+        (exit) => exit.remove()
+      )
       .attr("x", (d) => xLeft(d.slot))
       .attr("y", (d) => y(d.score))
-      .attr("width", BAR_W)
+      .attr("width", BW)
       .attr("height", (d) => innerH - y(d.score))
-      .attr("rx", 8)
-      .attr("fill", (d) =>
-        d.menthol ? "url(#grad-menthol)" : "url(#grad-regular)"
-      )
-      .attr("filter", "url(#shadow)")
+      .attr("fill", (d) => (d.menthol ? `url(#${gm})` : `url(#${gr})`))
+      .attr("filter", `url(#${sh})`)
       .style("cursor", "pointer")
-      .on("mouseenter", showTip)
-      .on("mousemove", moveTip)
-      .on("mouseleave", hideTip)
+      .on("mouseenter.tip", showTip)
+      .on("mousemove.tip", moveTip)
+      .on("mouseleave.tip", hideTip)
       .on(
         "click",
         (_, d) =>
           d.product_url && window.open(d.product_url, "_blank", "noopener")
       );
 
+    // スコア
     g.selectAll("text.score")
       .data(data, (d) => d.slot)
-      .join("text")
-      .attr("class", "score")
+      .join(
+        (enter) =>
+          enter
+            .append("text")
+            .attr("class", "score")
+            .attr("text-anchor", "middle")
+            .attr("font-size", 12)
+            .attr("font-weight", 600)
+            .attr("fill", "#333"),
+        (update) => update,
+        (exit) => exit.remove()
+      )
       .attr("x", (d) => xCenter(d.slot))
       .attr("y", (d) => y(d.score) - 8)
-      .attr("text-anchor", "middle")
-      .attr("font-size", 12)
-      .attr("font-weight", 600)
-      .attr("fill", "#333")
       .text((d) => (+d.score || 0).toFixed(2));
 
-    g.selectAll("text.xlabel")
+    // ---- ラベル（斜め -35°・折り返し＋省略・右寄せ）----
+    const labels = g
+      .selectAll("text.xlabel")
       .data(data, (d) => d.slot)
-      .join("text")
-      .attr("class", "xlabel")
+      .join(
+        (enter) =>
+          enter
+            .append("text")
+            .attr("class", "xlabel")
+            .attr("text-anchor", "end") // 右寄せ（回転に合わせる）
+            .attr("font-size", LABEL_FONT_PX)
+            .attr("fill", "#444")
+            .style("cursor", "pointer"),
+        (update) => update,
+        (exit) => exit.remove()
+      )
+      // ★ ここで下方向に LABEL_Y_OFFSET を加算
       .attr(
         "transform",
-        (d) => `translate(${xCenter(d.slot)}, ${innerH + 12}) rotate(-35)`
+        (d) =>
+          `translate(${xCenter(d.slot)}, ${
+            innerH + 12 + LABEL_Y_OFFSET
+          }) rotate(-${ROT_DEG})`
       )
-      .attr("text-anchor", "end")
-      .attr("font-size", 12)
-      .attr("fill", "#444")
-      .style("cursor", "pointer")
-      .text((d) => titleOf(d))
-      .on("mouseenter", showTip)
-      .on("mousemove", moveTip)
-      .on("mouseleave", hideTip)
+      .on("mouseenter.tip", showTip)
+      .on("mousemove.tip", moveTip)
+      .on("mouseleave.tip", hideTip)
       .on(
         "click",
         (_, d) =>
           d.product_url && window.open(d.product_url, "_blank", "noopener")
       );
-  }, [recommended]);
 
-  return <svg ref={svgRef} />;
+    // 1行あたりの最大長（回転時の水平重なりを避けるため cos を考慮）
+    const maxLineLenPx = Math.min(
+      160,
+      Math.floor((BAND * 0.92) / Math.cos(ROT_RAD))
+    );
+
+    // 折り返し＋省略（「…」）
+    function wrapAndClamp(selection, maxWidth) {
+      selection.each(function (d) {
+        const text = d3.select(this);
+        const full = (d?.name ?? "").toString();
+        const chars = Array.from(full);
+
+        text.text(null);
+        let line = "";
+        let lineNo = 0;
+        let tspan = text.append("tspan").attr("x", 0).attr("dy", "0em");
+
+        for (let i = 0; i < chars.length; i++) {
+          const next = line + chars[i];
+          tspan.text(next);
+
+          if (tspan.node().getComputedTextLength() > maxWidth) {
+            if (lineNo >= LABEL_MAX_LINES - 1) {
+              // 最終行はクランプして「…」
+              let clipped = line || next;
+              tspan.text(clipped + "…");
+              while (
+                tspan.node().getComputedTextLength() > maxWidth &&
+                clipped.length > 0
+              ) {
+                clipped = clipped.slice(0, -1);
+                tspan.text(clipped + "…");
+              }
+              return;
+            }
+            // 改行
+            lineNo++;
+            line = chars[i];
+            tspan = text
+              .append("tspan")
+              .attr("x", 0)
+              .attr("dy", `${LABEL_LINE_EM}em`)
+              .text(line);
+          } else {
+            line = next;
+          }
+        }
+      });
+    }
+
+    labels.each(function (d) {
+      d3.select(this)
+        .text(null)
+        .append("tspan")
+        .text(d.name || "");
+    });
+    labels.call(wrapAndClamp, maxLineLenPx);
+  }, [data, wrapW, slots, barW, barGap]);
+
+  return (
+    <div ref={wrapRef} style={{ width: "100%" }}>
+      <svg ref={svgRef} />
+    </div>
+  );
 }

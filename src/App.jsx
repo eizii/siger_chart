@@ -15,19 +15,20 @@ export default function App() {
     menthol: true,
     regular: true,
     keywords: [],
+    price: 1500,
   });
 
   const results = useMemo(() => recommendWithScore(filters), [filters]);
   const top10 = results.slice(0, 10);
 
   return (
-    <div className="app" style={{ margin: 0 }}>
+    <div className="app" style={{ margin: 0, padding: 0 }}>
       <Header />
       <div>
         <Legend />
       </div>
 
-      <div className="layout">
+      <div className="layout" style={{ margin: 20 }}>
         <aside className="card controls">
           <InputForm filters={filters} onChange={setFilters} />
         </aside>
